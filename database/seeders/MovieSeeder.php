@@ -58,7 +58,7 @@ class MovieSeeder extends Seeder
                 'movie_id' => 3,//Esto no es necesario ya que es auto incremental.
                 'title' => 'El discurso del Rey',
                 'price' => 1499,
-                'release_date' => '2011-04-04',
+                'release_date' => '2011-04-04',//datos nuevos hay alguno?
                 'synosis' => 'La historia de como un rey tartamudo tuvo que dar un discurso a todo un pais',
                 'created_at' => now(),//Retorna la fecha actual.
                 'updated_at' => now(),

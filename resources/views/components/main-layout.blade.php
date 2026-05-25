@@ -18,7 +18,8 @@
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="<?= url('/') ?>">DV Peliculas</a>
+                {{-- <a class="navbar-brand" href="<?= url('/') ?>">DV Peliculas</a> --}}<!-- Se cambio esto por la linea de abajo -->
+                <a class="navbar-brand" href="<?= route('home') ?>">DV Peliculas</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -33,15 +34,15 @@
                                 Tiene un metodo is() que permite preguntar si el path de la ruta actual coincide
                             --}}
                             
-                            <x-navlink to="/">Home</x-navlink>
+                            <x-navlink to="home">Home</x-navlink><!-- Se cambio el "to" de todos esto porque se uso name "route" -->
                         </li>
                         <li class="nav-item">
                            
-                            <x-navlink to="nosotros">Nosotros</x-navlink>
+                            <x-navlink to="about">Nosotros</x-navlink>
                         </li>
                         <li class="nav-item">
                            
-                            <x-navlink to="peliculas/listado">Peliculas</x-navlink>
+                            <x-navlink to="movies.index">Peliculas</x-navlink>
                         </li>
                         
                     </ul>

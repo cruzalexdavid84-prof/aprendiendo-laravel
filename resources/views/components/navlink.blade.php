@@ -1,5 +1,5 @@
 <a
-    class="nav-link {{ request()->is($to) ? 'active' : '' }}"
-    {{ request()->is($to) ? 'aria-current="page"' : '' }} href="{{url($to)}}">
+    class="nav-link {{ request()->routeIs($to) ? 'active' : '' }}"{{--Se agrego el metodo routeIS--}}
+    {{ request()->routeIs($to) ? 'aria-current="page"' : '' }} href="{{route($to)}}">
     {{$slot}}
 </a>

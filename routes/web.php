@@ -62,19 +62,39 @@ Route::get('/', function () {
 });
 */
 //Version con controller
-Route::get('/',[\App\Http\Controllers\HomeController::class,'home']);//Tener en cuenta la estructura
+Route::get('/',[\App\Http\Controllers\HomeController::class,'home'])//Tener en cuenta la estructura
+    ->name('home');
 //Para Asociar un metodo de un controller a una ruta debemos pasar como segundo parametro
 //un array de 2 valores.
 //1 - FQN(Fully-qualified Name) de la clase del controller.
 //2 - El nombre del metodo dentro del controller.
 
-Route::get('/nosotros', [\App\Http\Controllers\HomeController::class, 'about']);
+Route::get('/nosotros', [\App\Http\Controllers\HomeController::class, 'about'])
+    ->name('about');
 /*
 Se agrega en la carpeta APP/Controllers cualquier 
 controlador de paginas web, no se lo haces como lo esta arriba ya que se hace inmanejable si crece
 
 */
 
-Route::get('/peliculas/listado',[\App\Http\Controllers\MoviesController::class,'index']);
+Route::get('/peliculas/listado',[\App\Http\Controllers\MoviesController::class,'index'])
+    ->name('movies.index');
 
-//Se creara un
+
+
+/**
+ * Parametros de Ruta
+ * En muchos casos vamos a necesitar definir rutas que van a tener algun segmento de su URL que sea
+ * dinamico
+ */
+
+Route::get('/peliculas/{id}',[\App\Http\Controllers\MoviesController::class,'show'])
+    //El name define el nombre de la ruta. Es un identificador que podemos usar para luego poder generar URLs
+    //sin tener que escribir la URL en si
+    ->name('movies.show')
+    ->whereNumber('id');
+
+
+Route::get('/peliculas/nueva',[\App\Http\Controllers\MoviesController::class, 'create'])/* Esto se pone aca porque 
+busca la primera ruta que encuentre y se volvio a poner donde estaba porque se agrego WHERENUMBER */
+    ->name('movies.create');

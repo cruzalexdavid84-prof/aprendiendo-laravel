@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 /*
+
+ACA SE CREAN RUTAS
+
 #Definicion de rutas
 Las rutas son las urls a partir de [public/] que van a existir en nuestra aplicacion para que los
 usuarios puedan visitar 
@@ -98,3 +101,8 @@ Route::get('/peliculas/{id}',[\App\Http\Controllers\MoviesController::class,'sho
 Route::get('/peliculas/nueva',[\App\Http\Controllers\MoviesController::class, 'create'])/* Esto se pone aca porque 
 busca la primera ruta que encuentre y se volvio a poner donde estaba porque se agrego WHERENUMBER */
     ->name('movies.create');
+
+//Para ka ryta de insercion, vamos a crear una ruta con la misma URL que la del formulario, pero que en vez de GET utilice POST
+Route::post('/peliculas/nueva',[\App\Http\Controllers\MoviesController::class, 'store'])/* Esto se pone aca porque 
+busca la primera ruta que encuentre y se volvio a poner donde estaba porque se agrego WHERENUMBER */
+    ->name('movies.store');

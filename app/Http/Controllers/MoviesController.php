@@ -54,6 +54,17 @@ class MoviesController extends Controller
             'price'=> ['required','numeric', 'min:0'],
             'release_date' => 'required',
             'synosis'=> 'required',//Si no aparece aca, entonces no retorna el error
+        ],[//Esta parte es opcional, aca se personaliza los mensjes que ve el usuario
+            'title.required' => 'El titulo no puede estar vacio',
+            'title.min' => "El nombre no puede tener menos de :min caracteres",//Si te equivocas aca no tira error, no dice que no lo reconoce
+            'price.required' => "El precio no puede estar vacio",
+            'price.numeric' => 'El precio debe ser un valor numerico',
+            'price.min'=> "El numero debe ser mayor a 0",
+            'release_date.required' => "La fecha no puede estar vacia",
+            'synosis.required' => "La sinopsis no puede estar vacia",
+            
+
+
         ]);
 
         

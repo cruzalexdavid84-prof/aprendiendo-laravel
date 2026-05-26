@@ -106,3 +106,6 @@ busca la primera ruta que encuentre y se volvio a poner donde estaba porque se a
 Route::post('/peliculas/nueva',[\App\Http\Controllers\MoviesController::class, 'store'])/* Esto se pone aca porque 
 busca la primera ruta que encuentre y se volvio a poner donde estaba porque se agrego WHERENUMBER */
     ->name('movies.store');
+
+Route::post('/peliculas/{{id}}/eliminar',[\App\Http\Controllers\MoviesController::class,'destroy'])
+    ->name('movies.destroy');

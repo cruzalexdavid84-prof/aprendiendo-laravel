@@ -87,10 +87,21 @@ class MoviesController extends Controller
         //      $movie->save();//Metodo de guardar, aunque no se en donde. AL parecer esto es una forma abreviada de Laravel
         
         
-        // - Forma usando Eloquent
+        // - Forma usando Eloquent Esto es lo mismo que todo lo anterior, solo que mas sintetico.
         $movie = Movie::create($data);
 
         return redirect()->route('movies.index');//Con esto redirecciono la accion del usuario.
     }
+
+    public function destroy(int $id){
+        $movie = Movie::findOrFail($id);
+
+        //Eliminamos usando el metodo delete.
+        $movie->delete();//Al parecer es un metodo de laravel que simplifica todo
+        return redirect()->route('movies.index');
+
+    }
+
+
 
 }

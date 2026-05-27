@@ -53,8 +53,18 @@ Pr. ejemplo, si la ruta es:
                 <td>{{$movie->price}} </td>
                 <td>{{$movie->release_date}}</td>
                 <td>
-                    {{-- <a href="{{ url('/peliculas/'. $movie->movie_id) }} " class="btn btn-primary">Ver</a> --}}
-                    <a href="{{ route('movies.show', ['id' => $movie->movie_id]) }} " class="btn btn-primary">Ver</a>
+                     {{-- <a href="{{ url('/peliculas/'. $movie->movie_id) }} " class="btn btn-primary">Ver</a> --}}
+                     {{-- Si la ruta requiere parametros de ruta, los pasamos como array asociativo en el segundo
+                     parametro
+                     --}}
+                    <div class="d-flex gap-2">{{-- Tener en cuenta esta linea, recordar que es un elemento en bloque --}}
+                        <a href="{{ route('movies.show', ['id' => $movie->movie_id]) }} " class="btn btn-primary">Ver</a>
+
+                        <form action="{{ route('movies.destroy', ['id'=> $movie->movie_id]) }} " method="post">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+
                 </td>
             </tr>
             @endforeach

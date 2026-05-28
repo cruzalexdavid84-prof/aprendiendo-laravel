@@ -15,7 +15,6 @@
 
 <body>
     <header>
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 {{-- <a class="navbar-brand" href="<?= url('/') ?>">DV Peliculas</a> --}}<!-- Se cambio esto por la linea de abajo -->
@@ -52,6 +51,15 @@
     </header>
 
     <main class="container py-2">
+
+        {{-- Agregamos el mensaje de feedback que haya sido flasheado, si existe.
+        Una forma de obtenerlo es con la funcion helper "session"
+        --}}
+        @if(session()->has('feedback.message'))
+            <div class="alert alert-success">{!!session()->get('feedback.message')!!}</div>{{-- Otra forma de imprimir pero
+             sin proteccion --}}
+        @endif
+
         {{ $slot }}
 
         {{--
@@ -60,8 +68,7 @@
 
     Para imprimir sin filtrar se hace lo siguiente:
     {!! $variable !!}
---}}
-
+    --}}
 
     </main>
     <footer class="footer">

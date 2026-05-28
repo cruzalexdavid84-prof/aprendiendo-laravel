@@ -107,5 +107,15 @@ Route::post('/peliculas/nueva',[\App\Http\Controllers\MoviesController::class, '
 busca la primera ruta que encuentre y se volvio a poner donde estaba porque se agrego WHERENUMBER */
     ->name('movies.store');
 
+Route::get('/peliculas/{id}/eliminar',[\App\Http\Controllers\MoviesController::class, 'delete'])/* Aca son solo parentesis simple */
+    ->name('movies.delete');//Esto busca la pelicula a borrar y la trae 
+
 Route::post('/peliculas/{id}/eliminar',[\App\Http\Controllers\MoviesController::class, 'destroy'])/* Aca son solo parentesis simple */
     ->name('movies.destroy');
+
+
+Route::get('/peliculas/{id}/editar',[\App\Http\Controllers\MoviesController::class, 'edit'])/* Aca son solo parentesis simple */
+    ->name('movies.edit');//Esto busca la pelicula a borrar y la trae 
+
+Route::post('/peliculas/{id}/editar',[\App\Http\Controllers\MoviesController::class, 'update'])/* Aca son solo parentesis simple */
+    ->name('movies.update');

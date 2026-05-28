@@ -90,7 +90,16 @@ class MoviesController extends Controller
         // - Forma usando Eloquent Esto es lo mismo que todo lo anterior, solo que mas sintetico.
         $movie = Movie::create($data);
 
-        return redirect()->route('movies.index');//Con esto redirecciono la accion del usuario.
+        return redirect()
+            ->route('movies.index')//Con esto redirecciono la accion del usuario.
+            ->with('feedback.message', 'La pelicula <b>'. e($movie->title) . '</b> se creo con exito');
+    }
+
+    public function delete(int $id){
+        return view ('movies.delete',['movie'=> Movie::findOrFail($id)]);/* El "movie" es una variable que se usa en la vista */
+        /* Muy interesante, aca le decis que te muestre una vista y le pasas un array asociativo y ahi dentro 
+        una funcion para que busque el id. "El Movie ::" es una instancia de una clase que se destruye pero que
+        hace una funcion */
     }
 
     public function destroy(int $id){
@@ -98,10 +107,21 @@ class MoviesController extends Controller
 
         //Eliminamos usando el metodo delete.
         $movie->delete();//Al parecer es un metodo de laravel que simplifica todo
-        return redirect()->route('movies.index');
-
+       /*  Otra veces, para borrar algo hay que ir a buscar el registro a la bbdd y despues eliminar cada dato cargado, esto lo hace solo */
+        return redirect()
+            ->route('movies.index')
+            /**
+             * El meotodo with() de Redirect "flasea" una variable a la sesion
+             * recibe 2 parametros
+             * 1- String. El nombre de la variable
+             * 2- mixed. El valor.
+             * Flashear quiere decir que esto dura 1 renderizado y se elimina.
+             * 
+             * Se agrega "e()" por un tema de seguridad y para respetar la semantica, se imprime sin escapar el HTML,
+             * Tenemos que asegurarnos de que cualquier valor que enviemos sea seguro. Ej. escapandolo manualmente. 
+             */
+            ->with('feedback.message','La película'. '<b>'. e($movie->title) . '</b>'. ' se elimino con exito.');
     }
-
-
+    
 
 }

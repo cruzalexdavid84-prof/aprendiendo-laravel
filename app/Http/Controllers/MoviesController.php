@@ -122,6 +122,12 @@ class MoviesController extends Controller
              */
             ->with('feedback.message','La película'. '<b>'. e($movie->title) . '</b>'. ' se elimino con exito.');
     }
+
+    public function edit(int $id){
+        //$movie = Movie::findOrFail($id);
+        return view ('movies.edit',['movie'=> Movie::findOrFail($id)]);
+
+    }
     
 
 }

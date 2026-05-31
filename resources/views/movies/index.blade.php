@@ -59,11 +59,17 @@ Pr. ejemplo, si la ruta es:
                      --}}
                     <div class="d-flex gap-2">{{-- Tener en cuenta esta linea, recordar que es un elemento en bloque --}}
                         <a href="{{ route('movies.show', ['id' => $movie->movie_id]) }}" class="btn btn-primary">Ver</a>
+
+                        <a href="{{ route('movies.edit', ['id' => $movie->movie_id]) }}" class="btn btn-secondary">Editar</a>
+                        {{-- <form action="{{ route('movies.destroy', ['id'=> $movie->movie_id]) }} " method="post">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form> --}}
                        
                         <a href="{{ route('movies.delete', ['id' => $movie->movie_id]) }}" class="btn btn-danger">Eliminar</a>
                         {{-- <form action="{{ route('movies.destroy', ['id'=> $movie->movie_id]) }} " method="post">
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form> --}}
+                        
                     </div>
 
                 </td>

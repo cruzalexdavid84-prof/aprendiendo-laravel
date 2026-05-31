@@ -1,5 +1,5 @@
 <?php
-/** @var Iluminate\Support\ViewErrorBag $errors */
+/** @var \Iluminate\Support\ViewErrorBag $errors */
 
 ?>
 <x-main-layout>

@@ -1,18 +1,19 @@
 <?php
-/** @var Iluminate\Support\ViewErrorBag $errors */
+/** @var \Iluminate\Support\ViewErrorBag $errors */
+/** @var \App\Models\Movie $movie */
 
 ?>
 <x-main-layout>
-    <x-slot:title>Publicar Peliculas</x-slot:title>
+    <x-slot:title>Editar la pelicula: {{$movie->title}}</x-slot:title>{{-- Esto lo paso como variable cuando llamo a la vista --}}
 
-    <h1 class="mb-3">Publicar una nueva pelicula</h1>
+    <h1 class="mb-3">Editar</h1>
 
     {{-- El metodo any() retorna true si hubo algun mensaje de error --}}
     @if($errors->any())
         <div class="alert alert-danger mb-3">Hay errores en los datos del formulario. Por favor, revisalos y proba de nuevo</div>
     @endif
 
-    <form action="{{ route('movies.store') }}" method="post">
+    <form action="{{ route('movies.update', ['id' => $movie->movie_id]) }}" method="post">{{-- Aca se cambio como se pasa esto --}}
         <div class="mb-2">
             <label for="title" class="form-label">Titulo:</label>
             <input 
@@ -23,7 +24,7 @@
                     aria-invalid="true"{{-- Esto es para accesibilidad --}}
                     aria-errormessage="error_title" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
                 @enderror
-                value="{{ old('title') }}" 
+                value="{{ $movie->title }}" 
             >
             {{-- Se usa la funcion OLD para ayudar a completar al usuario la informacion --}}
             @if ($errors->has('title'))
@@ -42,12 +43,8 @@
                     aria-invalid="true"{{-- Esto es para accesibilidad --}}
                     aria-errormessage="error_price" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
                 @enderror
-                value="{{ old('price') }}" 
-            > {{-- Se agrego esto de error --}}
-            {{-- @if ($errors->has('price'))
-                <div class="text-danger">{{$errors->first('price') }}</div>
-            @endif --}}
-            {{-- Otra forma de escribir los errores --}}
+                value="{{ $movie->price }}" 
+            > 
             @error('price'){{-- Esto hace lo mismo que la version anterior, esta predefinido por Laravel --}}
                 <div class="text-danger" id="error_price">{{$message}}</div>                
             @enderror
@@ -64,7 +61,7 @@
                     aria-invalid="true"{{-- Esto es para accesibilidad --}}
                     aria-errormessage="error_date" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
                 @enderror 
-                value="{{ old('release_date') }}" 
+                value="{{ $movie->release_date }}" 
             >
             @if ($errors->has('release_date'))
                 <div class="text-danger" id="error_date">{{$errors->first('release_date') }}</div>{{-- Ver este metodo First --}}
@@ -81,7 +78,7 @@
                     aria-errormessage="error_synosis" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
                 @enderror
                 class="form-control @error('synosis') is-invalid @enderror"
-            > {{ old('synosis') }} </textarea>
+            > {{ $movie->synosis }} </textarea>
             @if ($errors->has('synosis'))
                 <div class="text-danger" id="error_synosis">{{$errors->first('synosis') }}</div>{{-- Ver este metodo First --}}
             @endif
@@ -104,12 +101,12 @@
 
         <div class="mb-2">
             <label for="cover_description" class="form-label">Descripcion de portada:</label>
-            <textarea id="cover_description" name="cover_description"  class="form-control @error('cover_description') is-invalid @enderror"> {{ old('cover_description')}} </textarea>
+            <textarea id="cover_description" name="cover_description"  class="form-control @error('cover_description') is-invalid @enderror"> {{ $movie->cover_description}} </textarea>
             @error('cover_description'){{-- Esto hace lo mismo que la version anterior, esta predefinido por Laravel --}}
                 <div class="text-danger">{{$message}}</div>                
             @enderror
         </div>
-        <button type="submit" class="btn btn-primary">Publicar</button>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
 
     </form>
 

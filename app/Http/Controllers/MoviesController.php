@@ -47,7 +47,7 @@ class MoviesController extends Controller
     //Se pasa a la funcion el objeto Request para poder usarlo aca.
     {
 
-        //Tema clase 5, se hace la validacion.
+        //Tema clase 5, se hace la validacion. Estos son las validaciones que se hacen y los mensajes que se que muestran
         $request->validate([
             //Usando nomenclatura de array
             'title'=> ['required', 'min:2'],
@@ -62,8 +62,6 @@ class MoviesController extends Controller
             'price.min'=> "El numero debe ser mayor a 0",
             'release_date.required' => "La fecha no puede estar vacia",
             'synosis.required' => "La sinopsis no puede estar vacia",
-            
-
 
         ]);
 
@@ -130,4 +128,32 @@ class MoviesController extends Controller
     }
     
 
+    //si en un metodo quremos inyectar alguna dependencia (como el Request) y, a su vez queremos
+    //Pedir el valor de un parametro de ruta, entonces primero listamos las dependencias a inyectar,
+    //y luego los parametros de ruta
+    public function update(Request $request, int $id){
+
+        $request->validate([
+            //Usando nomenclatura de array
+            'title'=> ['required', 'min:2'],
+            'price'=> ['required','numeric', 'min:0'],
+            'release_date' => 'required',
+            'synosis'=> 'required',//Si no aparece aca, entonces no retorna el error
+        ],[//Esta parte es opcional, aca se personaliza los mensjes que ve el usuario
+            'title.required' => 'El titulo no puede estar vacio',
+            'title.min' => "El nombre no puede tener menos de :min caracteres",//Si te equivocas aca no tira error, no dice que no lo reconoce
+            'price.required' => "El precio no puede estar vacio",
+            'price.numeric' => 'El precio debe ser un valor numerico',
+            'price.min'=> "El numero debe ser mayor a 0",
+            'release_date.required' => "La fecha no puede estar vacia",
+            'synosis.required' => "La sinopsis no puede estar vacia",
+        ]);
+        $data= $request->only('title','price', 'release_date', 'synosis');
+        $movie= Movie::findOrFail($id);//Aca se agreag esto, lo que hace es garda en $movie el dato de la pelicula que va a actualizar
+        $movie->update($data);//Tener en cuenta como cambia esto
+        return redirect()
+            ->route('movies.index')//Con esto redirecciono la accion del usuario.
+            ->with('feedback.message', 'La pelicula <b>'. e($movie->title) . '</b> se ha actualizado con exito');
+    }
+    
 }

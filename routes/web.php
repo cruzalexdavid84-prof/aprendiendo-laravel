@@ -115,7 +115,7 @@ Route::post('/peliculas/{id}/eliminar',[\App\Http\Controllers\MoviesController::
 
 
 Route::get('/peliculas/{id}/editar',[\App\Http\Controllers\MoviesController::class, 'edit'])/* Aca son solo parentesis simple */
-    ->name('movies.edit');//Esto busca la pelicula a borrar y la trae 
+    ->name('movies.edit');//
 
 Route::post('/peliculas/{id}/editar',[\App\Http\Controllers\MoviesController::class, 'update'])/* Aca son solo parentesis simple */
     ->name('movies.update');

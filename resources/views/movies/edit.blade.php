@@ -24,7 +24,7 @@
                     aria-invalid="true"{{-- Esto es para accesibilidad --}}
                     aria-errormessage="error_title" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
                 @enderror
-                value="{{ $movie->title }}" 
+                value="{{ old('title', $movie->title) }}" {{-- Tener en cuenta como se usa el valor --}}
             >
             {{-- Se usa la funcion OLD para ayudar a completar al usuario la informacion --}}
             @if ($errors->has('title'))
@@ -43,7 +43,7 @@
                     aria-invalid="true"{{-- Esto es para accesibilidad --}}
                     aria-errormessage="error_price" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
                 @enderror
-                value="{{ $movie->price }}" 
+                value="{{ old('price', $movie->price) }}" 
             > 
             @error('price'){{-- Esto hace lo mismo que la version anterior, esta predefinido por Laravel --}}
                 <div class="text-danger" id="error_price">{{$message}}</div>                
@@ -61,7 +61,7 @@
                     aria-invalid="true"{{-- Esto es para accesibilidad --}}
                     aria-errormessage="error_date" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
                 @enderror 
-                value="{{ $movie->release_date }}" 
+                value="{{ old('realease_date', $movie->release_date) }}" 
             >
             @if ($errors->has('release_date'))
                 <div class="text-danger" id="error_date">{{$errors->first('release_date') }}</div>{{-- Ver este metodo First --}}
@@ -78,7 +78,7 @@
                     aria-errormessage="error_synosis" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
                 @enderror
                 class="form-control @error('synosis') is-invalid @enderror"
-            > {{ $movie->synosis }} </textarea>
+            >{{ old('synosis', $movie->synosis) }} </textarea>
             @if ($errors->has('synosis'))
                 <div class="text-danger" id="error_synosis">{{$errors->first('synosis') }}</div>{{-- Ver este metodo First --}}
             @endif
@@ -101,7 +101,14 @@
 
         <div class="mb-2">
             <label for="cover_description" class="form-label">Descripcion de portada:</label>
-            <textarea id="cover_description" name="cover_description"  class="form-control @error('cover_description') is-invalid @enderror"> {{ $movie->cover_description}} </textarea>
+            <textarea 
+            id="cover_description" 
+            name="cover_description"  
+            class="form-control 
+            @error('cover_description') is-invalid @enderror"> 
+            {{ old('cover_description', $movie->cover_description)}} 
+        </textarea>
+            
             @error('cover_description'){{-- Esto hace lo mismo que la version anterior, esta predefinido por Laravel --}}
                 <div class="text-danger">{{$message}}</div>                
             @enderror

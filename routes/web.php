@@ -119,3 +119,10 @@ Route::get('/peliculas/{id}/editar',[\App\Http\Controllers\MoviesController::cla
 
 Route::post('/peliculas/{id}/editar',[\App\Http\Controllers\MoviesController::class, 'update'])/* Aca son solo parentesis simple */
     ->name('movies.update');
+
+/* CLASE DE AUTHENTICATOR */
+Route::get('/ingresar',[\App\Http\Controllers\AuthController::class,'show'])
+    ->name('login.show');
+
+Route::post('/ingresar',[\App\Http\Controllers\AuthController::class,'process'])
+    ->name('login.process');

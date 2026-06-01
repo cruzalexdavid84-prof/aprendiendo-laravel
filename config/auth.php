@@ -39,8 +39,8 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+            'driver' => 'session',//Define como se va controlar la session
+            'provider' => 'users',//Define como la auth va a encontrar a los usuarios. Es decir que provee la auth de los usuarios
         ],
     ],
 

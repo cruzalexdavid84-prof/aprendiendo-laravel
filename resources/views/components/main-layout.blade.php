@@ -43,7 +43,10 @@
                            
                             <x-navlink to="movies.index">Peliculas</x-navlink>
                         </li>
-                        
+                        <li class="nav-item">
+                           
+                            <x-navlink to="login.show">Ingresar</x-navlink>
+                        </li>
                     </ul>
                 </div>
             </div>

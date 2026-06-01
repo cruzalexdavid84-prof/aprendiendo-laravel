@@ -25,16 +25,16 @@ class Movie extends Model
         //2- ?callable. set. La funcion que transforma el valor en la asignacion a la bbdd
 
         return Attribute::make(
-            get: function($value){
-                return $value/100;
-            },
-            set: function($value){
-                return $value*100;
-            }
+            get: fn($value) => $value/100,//LA arrow fn no puede tener una llave de apertura, solo puede tener 1 expresion
+            set: fn($value) => $value*100,
         );
 
         //Clase 7
-        
+        /**
+         * Named Arguments
+         * 
+         * 
+         */
     }
 
 }

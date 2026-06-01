@@ -19,9 +19,6 @@ class HomeController extends Controller//Esta clase no se puede instanciar
     }
      */
 }
-
-
-
 /*
 Clase 2
 Aca se crean todos los controladores de las paginas 

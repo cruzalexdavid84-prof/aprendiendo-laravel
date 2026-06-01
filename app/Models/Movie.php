@@ -31,9 +31,9 @@ class Movie extends Model
             set: function($value){
                 return $value*100;
             }
-
         );
 
+        //Clase 7
         
     }
 

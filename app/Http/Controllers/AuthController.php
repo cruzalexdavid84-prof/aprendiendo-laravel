@@ -19,27 +19,35 @@ class AuthController extends Controller
         $request->validate([
             //Usando nomenclatura de array
             'email'=> ['required','email'],
-            'password'=> ['required','min:8'],
+            'password'=> ['required'],
         ],[//Esta parte es opcional, aca se personaliza los mensjes que ve el usuario
             'email.required' => 'El email no puede estar vacio',
             'email.email'=> 'El email debe tener "@" y el dominio',
             'password.required' => "El password no puede estar vacio",
-            'password.min' => "El password no puede tener menos de :min caracteres",//Si te equivocas aca no tira error, no dice que no lo reconoce
+            //'password.min' => "El password no puede tener menos de :min caracteres",//Si te equivocas aca no tira error, no dice que no lo reconoce
         
         ]);
         $credentials = $request->only('email','password');//Variable donde va la info.
-        if(Auth::attempt($credentials)===false){
-            //tiramos algun error
+        if(Auth::attempt($credentials) === false)
+        {
             return redirect()
-                ->route('login.show')
+                ->route('login.show')//
                 ->withInput()//agrega una variable flash en la sesion de datos del form. Permite usar la funcion "old()"
                 ->with('feedback.message','Las credenciales ingresadas no coinciden con nuestros registros');
         }
         return redirect()
         ->route('movies.index')
         ->with('feedback.message','¡Hola de nuevo,'. auth::user()->email . '!, como estas?');
-
-
     }
-
+    
+    public function logout(Request $request){
+        //Para cerrar sesion llamamos al metodo logout 
+        Auth::logout();//Con esto solo se cierra la sesion
+        //Para mejorar la seguridad de nuestro sitio, 
+        $request->session()->invalidate();//Esto esta en la documentacion
+        $request->session()->regenerateToken();//Esto tmb esta en la documentacion
+        return redirect()
+            ->route('login.show')
+            ->with('feedback.message','Sesion cerrada con exito');
+    }
 }

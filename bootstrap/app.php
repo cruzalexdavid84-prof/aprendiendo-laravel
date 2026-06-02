@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Session;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -11,7 +12,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        //Configuramos a donde va el usuario que no esta autenticado
+        //$middleware->redirectGuestsTo('/ingresar');//Esto seria una manera pero si cambia la direccion se romperia
+        $middleware->redirectGuestsTo(function() {
+            Session::flash('feedback.message', 'Para acceder a esta sesion se debe logear');//Para usar el session hay que agregar la fachada
+            return route ('login.show');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

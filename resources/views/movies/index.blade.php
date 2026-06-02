@@ -20,29 +20,26 @@ Pr. ejemplo, si la ruta es:
     <x-saraza></x-saraza>
 --}}
 
-
-
 <x-main-layout>
-
 
     <x-slot:title>Listado de Peliculas </x-slot:title>
     <h1 class="mb-2">Nuestras Peliculas</h1>
     <p>Aca vas a encontrar la mejor seleccion de Peliculas</p>
-
-    <div class="mb-3">
-        <a href="{{route('movies.create') }}">Publicar una nueva pelicula</a>
+    @auth
+        <div class="mb-3">
+            <a href="{{route('movies.create') }}">Publicar una nueva pelicula</a>        
         
-        
-    </div>
-
-
+        </div>
+    @endauth
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Titulo</th>
                 <th>Precio</th>
                 <th>Fecha de Estreno</th>
-                <th>Acciones</th>
+                <th>Acciones</th> 
+                
+                
             </tr>
         </thead>
         <tbody>
@@ -52,6 +49,7 @@ Pr. ejemplo, si la ruta es:
                 <td>{{$movie->title}}</td>
                 <td>{{$movie->price}} </td>
                 <td>{{$movie->release_date}}</td>
+                
                 <td>
                      {{-- <a href="{{ url('/peliculas/'. $movie->movie_id) }} " class="btn btn-primary">Ver</a> --}}
                      {{-- Si la ruta requiere parametros de ruta, los pasamos como array asociativo en el segundo
@@ -59,20 +57,21 @@ Pr. ejemplo, si la ruta es:
                      --}}
                     <div class="d-flex gap-2">{{-- Tener en cuenta esta linea, recordar que es un elemento en bloque --}}
                         <a href="{{ route('movies.show', ['id' => $movie->movie_id]) }}" class="btn btn-primary">Ver</a>
-
-                        <a href="{{ route('movies.edit', ['id' => $movie->movie_id]) }}" class="btn btn-secondary">Editar</a>
-                        {{-- <form action="{{ route('movies.destroy', ['id'=> $movie->movie_id]) }} " method="post">
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form> --}}
-                       
-                        <a href="{{ route('movies.delete', ['id' => $movie->movie_id]) }}" class="btn btn-danger">Eliminar</a>
-                        {{-- <form action="{{ route('movies.destroy', ['id'=> $movie->movie_id]) }} " method="post">
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form> --}}
+                        @auth
+                            <a href="{{ route('movies.edit', ['id' => $movie->movie_id]) }}" class="btn btn-secondary">Editar</a>
+                            {{-- <form action="{{ route('movies.destroy', ['id'=> $movie->movie_id]) }} " method="post">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form> --}}
                         
+                            <a href="{{ route('movies.delete', ['id' => $movie->movie_id]) }}" class="btn btn-danger">Eliminar</a>
+                            {{-- <form action="{{ route('movies.destroy', ['id'=> $movie->movie_id]) }} " method="post">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form> --}}
+                        @endauth
                     </div>
 
                 </td>
+                
             </tr>
             @endforeach
         </tbody>

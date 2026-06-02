@@ -43,10 +43,19 @@
                            
                             <x-navlink to="movies.index">Peliculas</x-navlink>
                         </li>
+                        {{-- @if(auth()->check()) --}}
+                        @auth{{-- Ambas cosas hacen lo mismo y admiten el auth --}}                    
                         <li class="nav-item">
-                           
+                            <form action="{{ route('logout') }}" method="post">
+                                <button type="submit" class="nav-link border-0 bg-transparent">Cerrar Sesion de <span> <b>{{auth()->user()->email}}</b></span></button>
+                            </form>
+                        </li>
+                        @else
+                        <li class="nav-item">   
                             <x-navlink to="login.show">Ingresar</x-navlink>
                         </li>
+                        @endauth
+                        {{-- @endif --}}
                     </ul>
                 </div>
             </div>

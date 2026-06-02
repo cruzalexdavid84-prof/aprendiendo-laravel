@@ -97,28 +97,36 @@ Route::get('/peliculas/{id}',[\App\Http\Controllers\MoviesController::class,'sho
     ->name('movies.show')
     ->whereNumber('id');
 
-
+//Para proteger las rutas, se agregará un MIDDLEWARE
 Route::get('/peliculas/nueva',[\App\Http\Controllers\MoviesController::class, 'create'])/* Esto se pone aca porque 
 busca la primera ruta que encuentre y se volvio a poner donde estaba porque se agrego WHERENUMBER */
-    ->name('movies.create');
+    ->name('movies.create')
+    ->middleware('auth');//Esto me protege cuando no tengo un usuario autenticado.
 
 //Para ka ryta de insercion, vamos a crear una ruta con la misma URL que la del formulario, pero que en vez de GET utilice POST
 Route::post('/peliculas/nueva',[\App\Http\Controllers\MoviesController::class, 'store'])/* Esto se pone aca porque 
 busca la primera ruta que encuentre y se volvio a poner donde estaba porque se agrego WHERENUMBER */
-    ->name('movies.store');
+    ->name('movies.store')
+    ->middleware('auth');
 
 Route::get('/peliculas/{id}/eliminar',[\App\Http\Controllers\MoviesController::class, 'delete'])/* Aca son solo parentesis simple */
-    ->name('movies.delete');//Esto busca la pelicula a borrar y la trae 
+    ->name('movies.delete')//Esto busca la pelicula a borrar y la trae 
+    ->middleware('auth');
 
-Route::post('/peliculas/{id}/eliminar',[\App\Http\Controllers\MoviesController::class, 'destroy'])/* Aca son solo parentesis simple */
-    ->name('movies.destroy');
-
+    Route::post('/peliculas/{id}/eliminar',[\App\Http\Controllers\MoviesController::class, 'destroy'])/* Aca son solo parentesis simple */
+    ->name('movies.destroy')
+    ->middleware('auth');
 
 Route::get('/peliculas/{id}/editar',[\App\Http\Controllers\MoviesController::class, 'edit'])/* Aca son solo parentesis simple */
-    ->name('movies.edit');//
+    ->name('movies.edit')//
+    ->middleware('auth');
 
 Route::post('/peliculas/{id}/editar',[\App\Http\Controllers\MoviesController::class, 'update'])/* Aca son solo parentesis simple */
-    ->name('movies.update');
+    ->name('movies.update')
+    ->middleware('auth');
+
+
+
 
 /* CLASE DE AUTHENTICATOR */
 Route::get('/ingresar',[\App\Http\Controllers\AuthController::class,'show'])
@@ -126,3 +134,7 @@ Route::get('/ingresar',[\App\Http\Controllers\AuthController::class,'show'])
 
 Route::post('/ingresar',[\App\Http\Controllers\AuthController::class,'process'])
     ->name('login.process');
+
+//Cerrar Sesion
+Route::post('/cerrar-sesion',[\App\Http\Controllers\AuthController::class,'logout'])//El logout de aca es el valor de la funcion
+    ->name('logout');

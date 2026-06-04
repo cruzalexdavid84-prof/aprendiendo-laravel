@@ -17,7 +17,7 @@ return new class extends Migration
          */
         Schema::table('movies', function (Blueprint $table) {
             //
-            $table->string('cover')->nullabel();
+            $table->string('cover')->nullable();
             $table->string('cover_description')->nullable();
         });
     }

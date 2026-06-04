@@ -68,8 +68,9 @@
         Una forma de obtenerlo es con la funcion helper "session"
         --}}
         @if(session()->has('feedback.message'))
-            <div class="alert alert-success">{!!session()->get('feedback.message')!!}</div>{{-- Otra forma de imprimir pero
+            <div class="alert alert-{{session()->get('feedback.type','success')}}">{!!session()->get('feedback.message')!!}</div>{{-- Otra forma de imprimir pero
              sin proteccion --}}
+             {{-- ACA LE ESTOY PASANDO UN PARAMETRO POR DEFAULT A feedback.type --}}
         @endif
 
         {{ $slot }}

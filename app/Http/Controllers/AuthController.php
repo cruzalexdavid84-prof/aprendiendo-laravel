@@ -33,7 +33,8 @@ class AuthController extends Controller
             return redirect()
                 ->route('login.show')//
                 ->withInput()//agrega una variable flash en la sesion de datos del form. Permite usar la funcion "old()"
-                ->with('feedback.message','Las credenciales ingresadas no coinciden con nuestros registros');
+                ->with('feedback.message','Las credenciales ingresadas no coinciden con nuestros registros')
+                ->with('feedback.type', 'danger');//Esto cambia el color del mensaje de error.
         }
         return redirect()
         ->route('movies.index')

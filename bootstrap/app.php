@@ -1,5 +1,5 @@
 <?php
-
+/* ACA SE PUSO UNA CONFIGURACION DEL MIDDLEWARE */
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //$middleware->redirectGuestsTo('/ingresar');//Esto seria una manera pero si cambia la direccion se romperia
         $middleware->redirectGuestsTo(function() {
             Session::flash('feedback.message', 'Para acceder a esta sesion se debe logear');//Para usar el session hay que agregar la fachada
+            Session::flash('feedback.type','danger');//Consultar la ESTRUCTURA DE ESTO.
             return route ('login.show');
         });
     })

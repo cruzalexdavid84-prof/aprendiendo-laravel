@@ -12,7 +12,7 @@
         <div class="alert alert-danger mb-3">Hay errores en los datos del formulario. Por favor, revisalos y proba de nuevo</div>
     @endif
 
-    <form action="{{ route('movies.store') }}" method="post">
+    <form action="{{ route('movies.store') }}" method="post" enctype="multipart/form-data">{{-- Se agrega enctype, tiene que ser por POST --}}
         <div class="mb-2">
             <label for="title" class="form-label">Titulo:</label>
             <input 

@@ -16,6 +16,8 @@ Debe tener, al menos, dos metodos publicos para funcionar correctamente:
     Esto es importante para asegurarnos de que las migraciones siempre sean reversibles.
 */
 
+/*SE CREA UNA NUEVA MIGRACION PARA AGREGAR LA COLUMAN COVER EN LA BBDD */
+
 return new class extends Migration
 {
     /**

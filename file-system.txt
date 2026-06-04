@@ -1,0 +1,65 @@
+/**
+
+# Uso de File Systems con Laravel
+
+Como recordamos, un file system es un sistema para administrar archivos (crear, eliminar, editar, leer, ejecutar).
+El más común es el file system local. Pero hay otros.
+Por ejemplo, Google Drive o Dropbox son un file system. Uno que generalmente usan los usuarios.
+Pero también hay otros file systems que están diseñados para poder ser utilizados por aplicaciones. Por ejemplo,
+Amazon S3 (Simple Storage Service).
+
+Los servicios como Amazon S3 son muy populares porque:
+- Comparados a los precios de almacenamiento de un web hosting tradicional, son más económicos.
+- Suelen incluir un CDN para la distribución de los archivos.
+- No compiten con el ancho de banda del resto del sitio. En otras palabras, al no estar hosteados en nuestro
+  servidor, tengo todo el ancho de banda del mismo para el resto de los contenidos (HTML, CSS, JS, etc).
+
+Para trabajar con ese tipo de servicios, uno necesita sacar una cuenta, y usar un SDK o una API REST o RPC
+para interactuar con él.
+
+Si bien son muy populares esos servicios, no siempre es deseable usarlos.
+Por ejemplo, no son deseables cuando:
+- Estamos trabajando localmente durante el desarrollo.
+- El sitio maneja un volumen pequeño de archivos.
+
+
+Este preámbulo que estamos haciendo tiene que ver con cómo es que Laravel maneja el upload de archivos.
+
+## Presentando la API de File Storage de Laravel
+https://laravel.com/docs/13.x/filesystem
+
+Esta API es la manera en que Laravel propone trabajar con el file system.
+Como Laravel es consciente de todo lo que mencionamos previamente, sabe es común que queramos usar un
+file system para el desarrollo local (nuestro propio disco) y otro para el sitio en producción (un
+servicio como Amazon S3).
+
+Normalmente, esto presenta un gran problema. Porque las interfaces para trabajar con un file system
+u otro en php puro son completamente diferentes.
+Para el file system local usaremos cosas como las funciones de file_get_contents o file_put_contents.
+Mientras que para el servicio en la nube usaremos algún SDK o API REST.
+
+La forma de trabajo que propone Laravel soluciona este problema. La API de Laravel es agnóstica del
+file system que estemos usando (siempre que sea alguno soportado por Laravel). Esto significa que vamos
+a tener los mismos exactos métodos para trabajar con el file system local o con el servidor en la nube.
+Lo único que cambia es los valores de la configuración, que podemos ver en [config/filesystems.php].
+
+
+### ¿Cómo funciona?
+
+La API de Storage de Laravel se basa en el "disk" configurado.
+
+Un "disk" es la combinación de un "driver" (el sistema de file system que usamos, como "local" o "s3")
+y las configuraciones asociadas.
+
+Vamos a tener típicamente disks para el desarrollo local y disks para el sistema en producción.
+
+Como nosotros vamos a usar el file system local, por defecto, tenemos dos opciones para elegir de
+"disks":
+- local
+- public
+
+El disck "public" es el que se puede usar para guardar archivos que los usuarios de nuestra web deben poder acceder.
+Por ejemplo, las imagenes o archivos para descargar.
+
+El disk "local" espara archivos de uso interno. Que no son para que se muestre a los usuarios finales.
+/

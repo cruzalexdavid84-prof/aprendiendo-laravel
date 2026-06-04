@@ -71,10 +71,34 @@ class MoviesController extends Controller
         //$data= $request->input();//Esto es el metodo input
         //dd($data);//Solo trae los valores que se agrego, a diferencia del request que me trae todos los datos.
     
-        $data= $request->only('title','price', 'release_date', 'synosis');//Esto es otra manera de recibir, especificando que recibo
+        $data= $request->only('title','price', 'release_date', 'synosis', 'cover_description');//Esto es otra manera de recibir, especificando que recibo
         //La forma de hacerlo con el Only es mas sanetizado
         //dd($data);
 
+        //UPLOAD de la imagen
+        //Preguntamos si existe una imagen
+
+        if($request -> hasFile('cover')){
+            //Vamos a guardar el archivo en el "disk" configurado en el file system
+            /* 
+                El metodo file() retorna un UploadeadFile.
+                Esta es una clase de Laravel que tiene metodos para manipular este archivo.
+                Entre ellos tenemos "store" y "storeAs"
+                
+                El metodo store() guarda un archivo en al ruta indicada en relacion al disk elegido con un 
+                nombre generado automaticamente. Opcionalmente se puede pasar un segundo parametro para indicar el disk donde se guardara.
+                Ejempos
+                $request->file('image)->('images');  //ACA SE GUARDA EN EL DISCO DEFINIDO como default
+                $request->file('image)->('images', 'public');   
+                $request->file('image)->('images', 's3');
+
+                Para poner un nombre noostros se usa el storeAs('image','[NOMBRE]','s3')//
+
+            */
+            $filename = $request->file('cover')->store('covers');
+            //Agregamos este valor al data
+            $data['cover'] = $filename;
+        }
         //a continuacion grabaremos un registro
         // - Forma manual
         //      $movie = new Movie();//Aca se crea una instancia del objeto.

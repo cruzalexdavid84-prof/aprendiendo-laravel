@@ -13,7 +13,7 @@
         <div class="alert alert-danger mb-3">Hay errores en los datos del formulario. Por favor, revisalos y proba de nuevo</div>
     @endif
 
-    <form action="{{ route('movies.update', ['id' => $movie->movie_id]) }}" method="post">{{-- Aca se cambio como se pasa esto --}}
+    <form action="{{ route('movies.update', ['id' => $movie->movie_id]) }}" method="post" enctype="multipart/form-data">{{-- Aca se cambio como se pasa esto --}}
         <div class="mb-2">
             <label for="title" class="form-label">Titulo:</label>
             <input 

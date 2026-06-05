@@ -2,6 +2,14 @@
     <x-slot:title>{{ $movie->title }}</x-slot:title>
     <h1 class="mb-3">{{ $movie-> title}}</h1>
 
+    <div>
+        @if($movie->cover !== null){
+            <img src="{{ \Storage::url($movie->cover) }}" alt="{{ $movie->cover_description }}">
+        }
+        @endif
+        
+    </div>
+
     <dl class="mb-3">
         <dt><b>Precio</b></dt>
         <dd>$ {{$movie->price}} </dd>

@@ -12,8 +12,8 @@ class Movie extends Model
 {
     protected $primaryKey = 'movie_id';//Esto se debe aclarar porque Laravel supone que el campo que es la primary key se llama por defecto "ID",
 
-    protected $fillable = ['title','price','release_date','synosis'];//Esto se agrega debido a la asignacion masiva a traves
-    //del metodo create();
+    protected $fillable = ['title','price','release_date','synosis','cover','cover_description'];//Esto se agrega debido a la asignacion masiva a traves
+    //del metodo create();//Sino dice aca, entonces no se agregará
 
     /* Clase 6: Accessors y Mutators */
     public function price(): Attribute{//Muy importante el nombre de la funcion aca, si cambia el nombre no se aplica SOLA.

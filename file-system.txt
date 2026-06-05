@@ -62,4 +62,34 @@ El disck "public" es el que se puede usar para guardar archivos que los usuarios
 Por ejemplo, las imagenes o archivos para descargar.
 
 El disk "local" espara archivos de uso interno. Que no son para que se muestre a los usuarios finales.
+
+###Mostrando los archivos
+
+¡¡ IMPORTANTE !!
+
+Para que los archivos se puedan ver, vamos a necesitar correr un comando de Artisan:
+
+###  php artisan storage:link    ####
+
+  Este comando va a crear un "link simbólico" (symlink) dentro de la carpeta [public/] que va a referenciar
+a la carpeta [storage/app/public].
+
+De esta forma, los archivos que se guardan en la carpeta [storage], que normalmente no podrían ser accedidos
+al no estar dentro de la carpeta [public], van a poder usarse.
+
+!!! IMPORTANTE V2 !!
+
+Por su naturaleza, los symlinks no se pueden compartir. Es decir, no se pueden agregar a un VSC (como Git),
+ni se pueden comprimir correctamente en un zip o rar.
+Si tratan de hacer lo segundo, el symlink se pierde, y en su lugar se duplican los archivos.
+
+Por lo tanto, si descomprimen el archivo, van a tener que recrear el symlink. Y si ya existe la carpeta
+[public/storage], la van a tener que borrar primero.
+
+!!! IMPORTANTE V3 !!
+
+Tmb se debe agregar el ":8000" en el APP_URL en el [.env]
+
+Se debe definir la ruta exacta desde el dominio desde donde se acceder
+
 /

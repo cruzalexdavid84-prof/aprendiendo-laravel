@@ -11,10 +11,10 @@
         IMPORTANTE: a diferencia del metodo url() de laravel, que detecta automaticamente la ruta raiz del dominio 
         para generar los links, el metodo \Storage::url() necesita que el indiquemos "manualmente" cual es la ruta raiz del dominio.
         Esta ruta se define en el [.env] en la clave "APP_URL" --}}
-        @if($movie->cover !== null && \Storage::exists($movie->cover)){ {{-- ACa tmb pregunta por si existe el symlink --}}
+        @if($movie->cover !== null && \Storage::exists($movie->cover)) {{-- ACa tmb pregunta por si existe el symlink --}}
             <img src="{{ \Storage::url($movie->cover) }}" alt="{{ $movie->cover_description }}">{{--Usa el symlink para buscar 
             la imagen  --}}
-        }
+        
         @endif
         
     </div>

@@ -172,7 +172,15 @@ class MoviesController extends Controller
             'release_date.required' => "La fecha no puede estar vacia",
             'synosis.required' => "La sinopsis no puede estar vacia",
         ]);
-        $data= $request->only('title','price', 'release_date', 'synosis');
+        $data= $request->only('title','price', 'release_date', 'synosis', 'cover_description');
+        //Manejo de la portada
+
+        if($request->hasFile('cover')){/* Esto pregunta si el formulario vino con un (nuevo) archivo */
+            $filename=$request->file('cover')->store('covers');/* Si vino con eso, se pasa ese archivo y eso lo actualiza */
+            $data['cover']=$filename;/* la linea anterior toma el archivo y crea la ruta que se guarda en la carpeta public */
+        }
+
+
         $movie= Movie::findOrFail($id);//Aca se agreag esto, lo que hace es garda en $movie el dato de la pelicula que va a actualizar
         $movie->update($data);//Tener en cuenta como cambia esto
         return redirect()

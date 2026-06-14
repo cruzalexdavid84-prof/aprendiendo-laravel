@@ -85,6 +85,16 @@
         </div>
 
 
+
+        <div class="mb-3">
+            <div>Portada actual</div>
+            @if ($movie->cover !== null && \Storage::exists($movie->cover))
+                <img src="{{ \Storage::url($movie->cover) }}" alt="{{ $movie->cover_description }}" class="img-fluid">
+            @else
+                <div class="text-danger fw-bold">No tiene una portada actualmente</div>
+            @endif
+        </div>
+
         <div class="mb-2">
             <label for="cover" class="form-label">Portada:</label>
             <input 
@@ -92,7 +102,13 @@
                 id="cover" 
                 name="cover" 
                 class="form-control @error('cover') is-invalid @enderror"
+                aria-describedby="help_cover"{{-- Esto se pone para relacionar este id con el id del div mas abajo, es por accesibilidad --}}
+                @error('cover')
+                aria-invalid="true"
+                aria-errormessage="error_cover"
+                @enderror
             > {{--Aca no se puede poner un valor por defecto--}}
+            <div id="help_cover" class="fw-bold">Solo elegí una portada si querés cambiar la actual</div>
             @error('cover'){{-- Esto hace lo mismo que la version anterior, esta predefinido por Laravel --}}
                 <div class="text-danger">{{$message}}</div>                
             @enderror

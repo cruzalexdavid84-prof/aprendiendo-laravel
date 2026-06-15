@@ -36,6 +36,7 @@ Pr. ejemplo, si la ruta es:
             <tr>
                 <th>Titulo</th>
                 <th>Precio</th>
+                <th>Clasificicacion</th>
                 <th>Fecha de Estreno</th>
                 <th>Acciones</th> 
                 
@@ -48,6 +49,7 @@ Pr. ejemplo, si la ruta es:
             <tr>
                 <td>{{$movie->title}}</td>
                 <td>{{$movie->price}} </td>
+                <td>{{$movie->rating->abbreviation}} </td>{{-- Asi se invoca la relacion --}}
                 <td>{{$movie->release_date}}</td>
                 
                 <td>

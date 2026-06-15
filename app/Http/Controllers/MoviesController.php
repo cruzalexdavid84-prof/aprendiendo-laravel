@@ -3,9 +3,10 @@
 //ACA TMB  se PONEN LOS REQUISITOS DE LAS VALIDACIONES
 namespace App\Http\Controllers;
 
-use App\Models\Movie;//Se agrega este "Modelo" para usar esto.
-use Illuminate\Http\Request;// esta clase sirve para pedir los datos del objeto.
+use App\Models\Movie; //Se agrega este "Modelo" para usar esto.
+use Illuminate\Http\Request; // esta clase sirve para pedir los datos del objeto.
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage; //Se puso esta fachada.
 
 class MoviesController extends Controller
 {
@@ -13,16 +14,16 @@ class MoviesController extends Controller
     {
         //Traemos todas las peliculas que tenemos a traves del Query Builder
         //$movies = DB::table('movies')->get();//Se adaptara esto con ELOQUENT. Esta linea era por QUERY BUILDER????//
-        $movies = Movie::all();//Esto es ELOQUENT. EL metodo all() retorna una collection que tiene todos los registros de la tabla
+        $movies = Movie::all(); //Esto es ELOQUENT. EL metodo all() retorna una collection que tiene todos los registros de la tabla
         //
-        
+
         //dd()=> dump and die; Hace una suerte de var_dump y die.
         //dd($movies);//SE usa para pruebas rapidas de impresion.
 
         //Necesitamos pasarle las peliculas a la vista.
         //Las variables qeu definimos en el controller "no" estan automaticamente disponible en la vista.
         //Por eso para que la variable exista en la vista 
-        return view('movies.index',[
+        return view('movies.index', [
             'movies' => $movies,
         ]);
     }
@@ -33,7 +34,7 @@ class MoviesController extends Controller
         //dd($movie);
         //echo $id;
         //die;
-        return view('movies.show',[//escribir movies/show = movies.show
+        return view('movies.show', [ //escribir movies/show = movies.show
             'movie' => $movie,
         ]);
     }
@@ -43,23 +44,23 @@ class MoviesController extends Controller
         return view('movies.create');
     }
 
-    public function store(Request $request)//Request es el tipo de objeto
+    public function store(Request $request) //Request es el tipo de objeto
     //Se pasa a la funcion el objeto Request para poder usarlo aca.
     {
 
         //Tema clase 5, se hace la validacion. Estos son las validaciones que se hacen y los mensajes que se que muestran
         $request->validate([
             //Usando nomenclatura de array
-            'title'=> ['required', 'min:2'],
-            'price'=> ['required','numeric', 'min:0'],
+            'title' => ['required', 'min:2'],
+            'price' => ['required', 'numeric', 'min:0'],
             'release_date' => 'required',
-            'synosis'=> 'required',//Si no aparece aca, entonces no retorna el error
-        ],[//Esta parte es opcional, aca se personaliza los mensjes que ve el usuario
+            'synosis' => 'required', //Si no aparece aca, entonces no retorna el error
+        ], [ //Esta parte es opcional, aca se personaliza los mensjes que ve el usuario
             'title.required' => 'El titulo no puede estar vacio',
-            'title.min' => "El nombre no puede tener menos de :min caracteres",//Si te equivocas aca no tira error, no dice que no lo reconoce
+            'title.min' => "El nombre no puede tener menos de :min caracteres", //Si te equivocas aca no tira error, no dice que no lo reconoce
             'price.required' => "El precio no puede estar vacio",
             'price.numeric' => 'El precio debe ser un valor numerico',
-            'price.min'=> "El numero debe ser mayor a 0",
+            'price.min' => "El numero debe ser mayor a 0",
             'release_date.required' => "La fecha no puede estar vacia",
             'synosis.required' => "La sinopsis no puede estar vacia",
 
@@ -70,15 +71,15 @@ class MoviesController extends Controller
         /** A continuacion una manera de recibir las cosas*/
         //$data= $request->input();//Esto es el metodo input
         //dd($data);//Solo trae los valores que se agrego, a diferencia del request que me trae todos los datos.
-    
-        $data= $request->only('title','price', 'release_date', 'synosis', 'cover_description');//Esto es otra manera de recibir, especificando que recibo
+
+        $data = $request->only('title', 'price', 'release_date', 'synosis', 'cover_description'); //Esto es otra manera de recibir, especificando que recibo
         //La forma de hacerlo con el Only es mas sanetizado
         //dd($data);
 
         //UPLOAD de la imagen
         //Preguntamos si existe una imagen
 
-        if($request -> hasFile('cover')){
+        if ($request->hasFile('cover')) {
             //Vamos a guardar el archivo en el "disk" configurado en el file system
             /* 
                 El metodo file() retorna un UploadeadFile.
@@ -107,29 +108,36 @@ class MoviesController extends Controller
         //      $movie->release_date = $data['release_date'];
         //      $movie->synosis = $data['synosis'];
         //      $movie->save();//Metodo de guardar, aunque no se en donde. AL parecer esto es una forma abreviada de Laravel
-        
-        
+
+
         // - Forma usando Eloquent Esto es lo mismo que todo lo anterior, solo que mas sintetico.
         $movie = Movie::create($data);
 
         return redirect()
-            ->route('movies.index')//Con esto redirecciono la accion del usuario.
-            ->with('feedback.message', 'La pelicula <b>'. e($movie->title) . '</b> se creo con exito');
+            ->route('movies.index') //Con esto redirecciono la accion del usuario.
+            ->with('feedback.message', 'La pelicula <b>' . e($movie->title) . '</b> se creo con exito');
     }
 
-    public function delete(int $id){
-        return view ('movies.delete',['movie'=> Movie::findOrFail($id)]);/* El "movie" es una variable que se usa en la vista */
+    public function delete(int $id)
+    {
+        return view('movies.delete', ['movie' => Movie::findOrFail($id)]);/* El "movie" es una variable que se usa en la vista */
         /* Muy interesante, aca le decis que te muestre una vista y le pasas un array asociativo y ahi dentro 
         una funcion para que busque el id. "El Movie ::" es una instancia de una clase que se destruye pero que
         hace una funcion */
     }
 
-    public function destroy(int $id){
+    public function destroy(int $id)
+    {
         $movie = Movie::findOrFail($id);
 
         //Eliminamos usando el metodo delete.
-        $movie->delete();//Al parecer es un metodo de laravel que simplifica todo
-       /*  Otra veces, para borrar algo hay que ir a buscar el registro a la bbdd y despues eliminar cada dato cargado, esto lo hace solo */
+        $movie->delete(); //Al parecer es un metodo de laravel que simplifica todo
+        /*  Otra veces, para borrar algo hay que ir a buscar el registro a la bbdd y despues eliminar cada dato cargado, esto lo hace solo */
+
+        if (isset($movie->cover) && $movie->cover !== null && Storage::exists($movie->cover)) {
+            Storage::delete($movie->cover);//Esto borra la url de la portada.
+        }
+
         return redirect()
             ->route('movies.index')
             /**
@@ -142,50 +150,56 @@ class MoviesController extends Controller
              * Se agrega "e()" por un tema de seguridad y para respetar la semantica, se imprime sin escapar el HTML,
              * Tenemos que asegurarnos de que cualquier valor que enviemos sea seguro. Ej. escapandolo manualmente. 
              */
-            ->with('feedback.message','La película'. '<b>'. e($movie->title) . '</b>'. ' se elimino con exito.');
+            ->with('feedback.message', 'La película' . '<b>' . e($movie->title) . '</b>' . ' se elimino con exito.');
     }
 
-    public function edit(int $id){
+    public function edit(int $id)
+    {
         //$movie = Movie::findOrFail($id);
-        return view ('movies.edit',['movie'=> Movie::findOrFail($id)]);
-
+        return view('movies.edit', ['movie' => Movie::findOrFail($id)]);
     }
-    
+
 
     //si en un metodo quremos inyectar alguna dependencia (como el Request) y, a su vez queremos
     //Pedir el valor de un parametro de ruta, entonces primero listamos las dependencias a inyectar,
     //y luego los parametros de ruta
-    public function update(Request $request, int $id){
+    public function update(Request $request, int $id)
+    {
 
         $request->validate([
             //Usando nomenclatura de array
-            'title'=> ['required', 'min:2'],
-            'price'=> ['required','numeric', 'min:0'],
+            'title' => ['required', 'min:2'],
+            'price' => ['required', 'numeric', 'min:0'],
             'release_date' => 'required',
-            'synosis'=> 'required',//Si no aparece aca, entonces no retorna el error
-        ],[//Esta parte es opcional, aca se personaliza los mensjes que ve el usuario
+            'synosis' => 'required', //Si no aparece aca, entonces no retorna el error
+        ], [ //Esta parte es opcional, aca se personaliza los mensjes que ve el usuario
             'title.required' => 'El titulo no puede estar vacio',
-            'title.min' => "El nombre no puede tener menos de :min caracteres",//Si te equivocas aca no tira error, no dice que no lo reconoce
+            'title.min' => "El nombre no puede tener menos de :min caracteres", //Si te equivocas aca no tira error, no dice que no lo reconoce
             'price.required' => "El precio no puede estar vacio",
             'price.numeric' => 'El precio debe ser un valor numerico',
-            'price.min'=> "El numero debe ser mayor a 0",
+            'price.min' => "El numero debe ser mayor a 0",
             'release_date.required' => "La fecha no puede estar vacia",
             'synosis.required' => "La sinopsis no puede estar vacia",
         ]);
-        $data= $request->only('title','price', 'release_date', 'synosis', 'cover_description');
-        //Manejo de la portada
+        $data = $request->only('title', 'price', 'release_date', 'synosis', 'cover_description');
 
-        if($request->hasFile('cover')){/* Esto pregunta si el formulario vino con un (nuevo) archivo */
-            $filename=$request->file('cover')->store('covers');/* Si vino con eso, se pasa ese archivo y eso lo actualiza */
-            $data['cover']=$filename;/* la linea anterior toma el archivo y crea la ruta que se guarda en la carpeta public */
+        $movie = Movie::findOrFail($id); //Aca se agreag esto, lo que hace es garda en $movie el dato de la pelicula que va a actualizar
+
+        //Manejo de la portada. Esto se cambia debajo de esta linea ya que vamos a borrar la portada vieja
+        if ($request->hasFile('cover')) {/* Esto pregunta si el formulario vino con un (nuevo) archivo */
+            $filename = $request->file('cover')->store('covers');/* Si vino con eso, se pasa ese archivo y eso lo actualiza */
+            $data['cover'] = $filename;/* la linea anterior toma el archivo y crea la ruta que se guarda en la carpeta public */
+            $oldCover = $movie->cover; //Aca guardo la portada vieja.   
         }
 
+        $movie->update($data); //Tener en cuenta como cambia esto
 
-        $movie= Movie::findOrFail($id);//Aca se agreag esto, lo que hace es garda en $movie el dato de la pelicula que va a actualizar
-        $movie->update($data);//Tener en cuenta como cambia esto
+        if (isset($oldCover) && $oldCover !== null && Storage::exists($oldCover)) {
+            Storage::delete($oldCover);
+        }
+
         return redirect()
-            ->route('movies.index')//Con esto redirecciono la accion del usuario.
-            ->with('feedback.message', 'La pelicula <b>'. e($movie->title) . '</b> se ha actualizado con exito');
+            ->route('movies.index') //Con esto redirecciono la accion del usuario.
+            ->with('feedback.message', 'La pelicula <b>' . e($movie->title) . '</b> se ha actualizado con exito');
     }
-    
 }

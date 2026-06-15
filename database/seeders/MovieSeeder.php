@@ -38,6 +38,7 @@ class MovieSeeder extends Seeder
         DB::table('movies')->insert([
             [
                 'movie_id' => 1,//Esto no es necesario ya que es auto incremental.
+                'rating_fk'=>1,
                 'title' => 'El señor de los anillos: La Comunidad del anillo',
                 'price' => 1999,
                 'release_date' => '2000-12-12',
@@ -47,6 +48,7 @@ class MovieSeeder extends Seeder
             ],
             [
                 'movie_id' => 2,//Esto no es necesario ya que es auto incremental.
+                'rating_fk'=>2,
                 'title' => 'Matrix',
                 'price' => 1799,
                 'release_date' => '1998-07-24',
@@ -56,6 +58,7 @@ class MovieSeeder extends Seeder
             ],
             [
                 'movie_id' => 3,//Esto no es necesario ya que es auto incremental.
+                'rating_fk'=>4,
                 'title' => 'El discurso del Rey',
                 'price' => 1499,
                 'release_date' => '2011-04-04',//datos nuevos hay alguno?

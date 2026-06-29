@@ -1,6 +1,6 @@
 <?php
 /** @var \Iluminate\Support\ViewErrorBag $errors */
-
+/** @var \App\Models\Rating[] $ratings */
 ?>
 <x-main-layout>
     <x-slot:title>Publicar Peliculas</x-slot:title>
@@ -70,6 +70,30 @@
                 <div class="text-danger" id="error_date">{{$errors->first('release_date') }}</div>{{-- Ver este metodo First --}}
             @endif
         </div>
+
+       <div class="mb-2">
+            <label for="rating_fk" class="form-label">Clasificacion:</label>
+            <select 
+                id="rating_fk" 
+                name="rating_fk"
+                class="form-control @error('rating_fk') is-invalid @enderror"
+                @error('rating_fk'){--Se agrega la condicion para que solo afecte si pasa el error  --}}
+                    aria-invalid="true"{{-- Esto es para accesibilidad --}}
+                    aria-errormessage="error_rating_fk" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
+                @enderror 
+            >
+                @foreach($ratings as $rating)
+                    <option value="{{ $rating->rating_id }}">
+                        {{ $rating->name  }}
+                    </option>
+                @endforeach
+            </select>
+            @error('rating_fk')
+                <div class="text-danger" id="error_rating_fk">{{ $message }}</div>{{-- Ver este metodo First --}}
+            @enderror
+        </div>
+
+
 
         <div class="mb-2">
             <label for="synosis" class="form-label">Sinopsis:</label>

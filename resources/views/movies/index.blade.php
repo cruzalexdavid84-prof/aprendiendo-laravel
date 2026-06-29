@@ -19,6 +19,7 @@ Pr. ejemplo, si la ruta es:
     El componente lo incluimos:
     <x-saraza></x-saraza>
 --}}
+{{--Ok al parecer aca me trakea los cambios  --}}
 
 <x-main-layout>
 
@@ -49,7 +50,12 @@ Pr. ejemplo, si la ruta es:
             <tr>
                 <td>{{$movie->title}}</td>
                 <td>{{$movie->price}} </td>
-                <td>{{$movie->rating->abbreviation}} </td>{{-- Asi se invoca la relacion --}}
+                {{-- Cuando se accede al modelo de la relacion
+                lo que se hace es se accede al metodo de la propiedad, escribiendo como si fuera un atributo, 
+                es decir que no lleva parentesis, y de ahi, se trae el dato deseado. 
+                "rating es el nombre de la relacion" y "abbreviation es un atributo de la tabla retings"
+                --}}
+                <td>{{$movie->rating->abbreviation}} </td>{{-- Asi se invoca la relacion. Ese "rating" no es una variable, es el metodo  --}}
                 <td>{{$movie->release_date}}</td>
                 
                 <td>

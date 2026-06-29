@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie; //Se agrega este "Modelo" para usar esto.
+use App\Models\Rating;
 use Illuminate\Http\Request; // esta clase sirve para pedir los datos del objeto.
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage; //Se puso esta fachada.
@@ -41,7 +42,9 @@ class MoviesController extends Controller
 
     public function create()
     {
-        return view('movies.create');
+        return view('movies.create', [
+            'ratings'=> Rating::all(),
+        ]);/* Fallaba porque solo pasaba rating y no "ratings" */
     }
 
     public function store(Request $request) //Request es el tipo de objeto

@@ -16,7 +16,7 @@ class RatingSeeder extends Seeder
         DB::table('ratings')->insert([
             [
                 'rating_id'=>1,
-                'name'=>'Apto too publico',
+                'name'=>'Apto todo publico',
                 'abbreviation'=>'ATP',
                 'created_at'=>now(),
                 'updated_at'=>now(),

@@ -24,6 +24,8 @@
         <dd>$ {{$movie->price}} </dd>
         <dt><b>Fecha de Estreno</b></dt>
         <dd>{{$movie->release_date}}</dd>
+        <dt><b>Clasificacion</b></dt>
+        <dd>{{$movie->rating->name}} - ({{$movie->rating->abbreviation}})</dd>
     </dl>
     <hr class="mb-3">
     <h2 class="mb-2">Sinopsis</h2>

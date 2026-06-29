@@ -20,10 +20,7 @@ return new class extends Migration
             //... y el onUpdate, consultar que es eso a Chat. 
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::table('movies', function (Blueprint $table) {

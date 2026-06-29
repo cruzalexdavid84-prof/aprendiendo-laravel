@@ -58,6 +58,7 @@ class MoviesController extends Controller
             'price' => ['required', 'numeric', 'min:0'],
             'release_date' => 'required',
             'synosis' => 'required', //Si no aparece aca, entonces no retorna el error
+            'rating_fk' => ['required','exists:ratings,rating_id'],
         ], [ //Esta parte es opcional, aca se personaliza los mensjes que ve el usuario
             'title.required' => 'El titulo no puede estar vacio',
             'title.min' => "El nombre no puede tener menos de :min caracteres", //Si te equivocas aca no tira error, no dice que no lo reconoce
@@ -68,14 +69,12 @@ class MoviesController extends Controller
             'synosis.required' => "La sinopsis no puede estar vacia",
 
         ]);
-
-        
         //dd($request);//Esto se usa para ver que llega todo los valores
         /** A continuacion una manera de recibir las cosas*/
         //$data= $request->input();//Esto es el metodo input
         //dd($data);//Solo trae los valores que se agrego, a diferencia del request que me trae todos los datos.
 
-        $data = $request->only('title', 'price', 'release_date', 'synosis', 'cover_description'); //Esto es otra manera de recibir, especificando que recibo
+        $data = $request->only('title', 'price', 'release_date', 'synosis', 'cover_description', 'rating_fk'); //Esto es otra manera de recibir, especificando que recibo
         //La forma de hacerlo con el Only es mas sanetizado
         //dd($data);
 
@@ -168,13 +167,13 @@ class MoviesController extends Controller
     //y luego los parametros de ruta
     public function update(Request $request, int $id)
     {
-
         $request->validate([
             //Usando nomenclatura de array
             'title' => ['required', 'min:2'],
             'price' => ['required', 'numeric', 'min:0'],
             'release_date' => 'required',
             'synosis' => 'required', //Si no aparece aca, entonces no retorna el error
+            'rating_fk' => ['required', 'exists:ratings,rating_id'],
         ], [ //Esta parte es opcional, aca se personaliza los mensjes que ve el usuario
             'title.required' => 'El titulo no puede estar vacio',
             'title.min' => "El nombre no puede tener menos de :min caracteres", //Si te equivocas aca no tira error, no dice que no lo reconoce
@@ -194,9 +193,7 @@ class MoviesController extends Controller
             $data['cover'] = $filename;/* la linea anterior toma el archivo y crea la ruta que se guarda en la carpeta public */
             $oldCover = $movie->cover; //Aca guardo la portada vieja.   
         }
-
         $movie->update($data); //Tener en cuenta como cambia esto
-
         if (isset($oldCover) && $oldCover !== null && Storage::exists($oldCover)) {
             Storage::delete($oldCover);
         }

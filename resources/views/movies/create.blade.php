@@ -80,12 +80,11 @@
                 @error('rating_fk'){--Se agrega la condicion para que solo afecte si pasa el error  --}}
                     aria-invalid="true"{{-- Esto es para accesibilidad --}}
                     aria-errormessage="error_rating_fk" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
-                @enderror 
-            >
+                @enderror>
                 @foreach($ratings as $rating)
                     <option value="{{ $rating->rating_id }}">
-                        {{ $rating->name  }}
-                    </option>
+                    {{ $rating->name }} - {{ $rating->abbreviation }}
+                </option>
                 @endforeach
             </select>
             @error('rating_fk')

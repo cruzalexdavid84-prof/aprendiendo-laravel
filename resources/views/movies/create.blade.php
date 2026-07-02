@@ -76,11 +76,14 @@
             <select 
                 id="rating_fk" 
                 name="rating_fk"
+                
                 class="form-control @error('rating_fk') is-invalid @enderror"
                 @error('rating_fk'){--Se agrega la condicion para que solo afecte si pasa el error  --}}
                     aria-invalid="true"{{-- Esto es para accesibilidad --}}
                     aria-errormessage="error_rating_fk" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
                 @enderror>
+                {{-- <option value="">Elija una clasificacion</option> --}}
+                <option value="" disabled selected hidden>Elija una clasificacion</option>
                 @foreach($ratings as $rating)
                     <option value="{{ $rating->rating_id }}">
                     {{ $rating->name }} - {{ $rating->abbreviation }}

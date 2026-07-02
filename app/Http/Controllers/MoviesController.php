@@ -67,6 +67,7 @@ class MoviesController extends Controller
             'price.min' => "El numero debe ser mayor a 0",
             'release_date.required' => "La fecha no puede estar vacia",
             'synosis.required' => "La sinopsis no puede estar vacia",
+            'rating_fk.required' => "Hay que elegir la clasificacion, no puede estar vacia",
 
         ]);
         //dd($request);//Esto se usa para ver que llega todo los valores
@@ -158,7 +159,10 @@ class MoviesController extends Controller
     public function edit(int $id)
     {
         //$movie = Movie::findOrFail($id);
-        return view('movies.edit', ['movie' => Movie::findOrFail($id)]);
+        return view('movies.edit', [
+            'movie' => Movie::findOrFail($id),
+            'ratings'=> Rating::all(),/* Debe ser el nombre el plural, ya que es toda una coleccion */
+        ]);
     }
 
 
@@ -182,8 +186,9 @@ class MoviesController extends Controller
             'price.min' => "El numero debe ser mayor a 0",
             'release_date.required' => "La fecha no puede estar vacia",
             'synosis.required' => "La sinopsis no puede estar vacia",
+            'rating_fk.required' => "Hay que elegir la clasificacion, no puede estar vacia",
         ]);
-        $data = $request->only('title', 'price', 'release_date', 'synosis', 'cover_description');
+        $data = $request->only('title', 'price', 'release_date', 'synosis', 'cover_description','rating_fk');
 
         $movie = Movie::findOrFail($id); //Aca se agreag esto, lo que hace es garda en $movie el dato de la pelicula que va a actualizar
 

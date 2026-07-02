@@ -1,7 +1,7 @@
 <?php
 /** @var \Iluminate\Support\ViewErrorBag $errors */
 /** @var \App\Models\Movie $movie */
-
+/** @var \App\Models\Rating[]|\Illuminate\Database\Eloquent\Collection $ratings */
 ?>
 <x-main-layout>
     <x-slot:title>Editar la pelicula: {{$movie->title}}</x-slot:title>{{-- Esto lo paso como variable cuando llamo a la vista --}}
@@ -66,6 +66,31 @@
             @if ($errors->has('release_date'))
                 <div class="text-danger" id="error_date">{{$errors->first('release_date') }}</div>{{-- Ver este metodo First --}}
             @endif
+        </div>
+
+        <div class="mb-2">
+            <label for="rating_fk" class="form-label">Clasificacion:</label>
+            <select 
+                id="rating_fk" 
+                name="rating_fk"  
+                class="form-control @error('rating_fk') is-invalid @enderror"
+                @error('rating_fk'){--Se agrega la condicion para que solo afecte si pasa el error  --}}
+                    aria-invalid="true"{{-- Esto es para accesibilidad --}}
+                    aria-errormessage="error_rating_fk" {{-- Esto es para accesiblidad, tmb se agrego abajo --}}  
+                @enderror>
+                {{-- <option value="">Elija una clasificacion</option> --}}
+                <option value="" disabled selected hidden>Elija una clasificacion</option>
+                @foreach($ratings as $rating)
+                    <option value="{{ $rating->rating_id }}"
+                    @selected($rating->rating_id == old('rating_fk',$movie->rating_fk)){{-- Esto reemplaza a la condicion if, es lo mismo --}}
+                    >
+                    {{ $rating->name }} - {{ $rating->abbreviation }}
+                    </option>
+                @endforeach
+            </select>
+            @error('rating_fk')
+                <div class="text-danger" id="error_rating_fk">{{ $message }}</div>{{-- Ver este metodo First --}}
+            @enderror
         </div>
 
         <div class="mb-2">
